@@ -102,11 +102,11 @@ class Automaton {
         this._walk((i, j) => {
             const c = this._colors[this.board[i][j]];
 
-            // for (let x = 0; x < this._cellSize; x++) {
-            //     for (let y = 0; y < this._cellSize; y++) {
-            img.set(i * this._cellSize, j * this._cellSize, c);
-            //     }
-            // }
+            for (let x = 0; x < this._cellSize; x++) {
+                for (let y = 0; y < this._cellSize; y++) {
+                    img.set(i * this._cellSize + x, j * this._cellSize + y, c);
+                }
+            }
         });
         img.updatePixels();
         return img;
