@@ -98,15 +98,15 @@ class Automaton {
 
     getImageState(p: p5): p5.Image {
         const img = p.createImage(this._width, this._height);
-        img.loadPixels();
+        img.loadPixels(); // TODO: 10 FPS
         this._walk((i, j) => {
             const c = this._colors[this.board[i][j]];
 
-            for (let x = 0; x < this._cellSize; x++) {
-                for (let y = 0; y < this._cellSize; y++) {
-                    img.set(i * this._cellSize + x, j * this._cellSize + y, c);
-                }
-            }
+            // for (let x = 0; x < this._cellSize; x++) {
+            //     for (let y = 0; y < this._cellSize; y++) {
+            img.set(i * this._cellSize, j * this._cellSize, c);
+            //     }
+            // }
         });
         img.updatePixels();
         return img;

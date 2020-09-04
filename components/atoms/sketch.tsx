@@ -21,7 +21,7 @@ const Sketch: React.FC<SketchProps> = ({ width = 100, height = 100, onMounted }:
         }
 
         new p5(mainSketch, artboardRef.current);
-
+        console.log("p5 artboard mounted");
         onMounted && onMounted();
     }, []);
     return <Box ref={artboardRef} />;

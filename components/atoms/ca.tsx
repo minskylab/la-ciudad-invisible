@@ -2,11 +2,11 @@ import p5 from "p5";
 import VirtualEffect from "./virtualeffect";
 import Automaton from "./automaton";
 
-const mainSketchFactory = (width?: number, height?: number) => {
+const mainSketchFactory = (w?: number, h?: number) => {
     let pImages: p5.Image[];
     let realities: VirtualEffect[];
 
-    const cellSize: number = 4; // 18
+    const cellSize: number = 2; // 18
     const images = ["/im4.jpg", "/im3.jpg"];
 
     return (p: p5): void => {
@@ -15,8 +15,7 @@ const mainSketchFactory = (width?: number, height?: number) => {
         };
 
         p.setup = () => {
-            console.log(width, height);
-            p.createCanvas(width || 500, height || 500);
+            p.createCanvas(w || 500, h || 500, p.P2D);
             p.colorMode(p.RGB, 255);
             p.noStroke();
 
@@ -39,13 +38,14 @@ const mainSketchFactory = (width?: number, height?: number) => {
             let fps = p.frameRate();
             p.fill(255);
             p.stroke(0);
-            p.text("FPS: " + fps.toFixed(2), 10, height - 10);
+            p.text("FPS: " + fps.toFixed(2), 10, p.height - 10);
         };
 
         p.draw = () => {
             p.background("#000");
             realities.map((r) => r.draw(p));
             realities.map((r) => r.update());
+
             showFps();
         };
     };

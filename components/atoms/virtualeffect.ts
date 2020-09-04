@@ -17,10 +17,11 @@ class VirtualEffect {
         board.copy(this.image, 0, 0, this.image.width, this.image.height, 0, 0, board.width, board.height);
         board.mask(this.automaton.getImageState(p));
         p.image(board, 0, 0);
+        // p.ellipse(p.mouseX, p.mouseY, 10, 10);
     }
 
     update() {
-        this.automaton.updateState();
+        this.automaton.updateState(); // 4 fps +
     }
 }
 
