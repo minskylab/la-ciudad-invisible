@@ -6,7 +6,7 @@ const mainSketchFactory = (w?: number, h?: number) => {
     let pImages: p5.Image[];
     let realities: VirtualEffect[];
 
-    const cellSize: number = 2; // 18
+    const cellSize: number = 3; // 18
     const images = ["/im4.jpg", "/im3.jpg"];
 
     return (p: p5): void => {
