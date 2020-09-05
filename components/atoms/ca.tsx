@@ -9,7 +9,7 @@ const mainSketchFactory = (w?: number, h?: number) => {
         let running: boolean = true;
 
         const cellSize: number = 3; // 18
-        const images = ["/im4.jpg", "/im3.jpg"];
+        const images = ["/im3.jpg", "/im4.jpg"];
 
         p.preload = () => {
             pImages = images.map((imgSrc): p5.Image => p.loadImage(imgSrc));
