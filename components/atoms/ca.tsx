@@ -3,19 +3,20 @@ import VirtualEffect from "./virtualeffect";
 import Automaton from "./automaton";
 
 const mainSketchFactory = (w?: number, h?: number) => {
-    let pImages: p5.Image[];
-    let realities: VirtualEffect[];
-
-    const cellSize: number = 3; // 18
-    const images = ["/im4.jpg", "/im3.jpg"];
-
     return (p: p5): void => {
+        let pImages: p5.Image[];
+        let realities: VirtualEffect[];
+        let running: boolean = true;
+
+        const cellSize: number = 3; // 18
+        const images = ["/im4.jpg", "/im3.jpg"];
+
         p.preload = () => {
             pImages = images.map((imgSrc): p5.Image => p.loadImage(imgSrc));
         };
 
         p.setup = () => {
-            p.createCanvas(w || 500, h || 500, p.P2D);
+            p.createCanvas(w || 500, h || 500);
             p.colorMode(p.RGB, 255);
             p.noStroke();
 
@@ -47,6 +48,18 @@ const mainSketchFactory = (w?: number, h?: number) => {
             realities.map((r) => r.update());
 
             showFps();
+        };
+
+        p.keyPressed = () => {
+            if (p.keyCode === p.SHIFT) {
+                if (running) {
+                    p.noLoop();
+                    running = false;
+                } else {
+                    p.loop();
+                    running = true;
+                }
+            }
         };
     };
 };
