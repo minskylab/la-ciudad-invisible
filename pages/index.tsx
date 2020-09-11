@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     ThemeProvider,
     CSSReset,
@@ -12,7 +12,6 @@ import {
     DrawerCloseButton,
     DrawerHeader,
     DrawerBody,
-    DrawerFooter,
     DrawerOverlay,
     useDisclosure,
     Text,
@@ -24,16 +23,13 @@ import Logo from "../components/atoms/logo";
 const Sketch = dynamic<SketchProps>(() => import("../components/atoms/sketch") as any, { ssr: false });
 
 const Index = () => {
-    // const { colorMode, toggleColorMode } = useColorMode();
-    // const [loading, setLoading] = useState<boolean>(true);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const btnRef = React.useRef();
+    const [sketchSize, setSketchSize] = useState<{ w: number; h: number }>({ w: 600, h: 400 });
 
     const frameTemplate = (frameSize: number, u: string = "vw"): string => {
         return `${frameSize}vw calc(100${u} - ${2 * frameSize}vw) ${frameSize}vw`;
     };
-
-    const [sketchSize, setSketchSize] = useState<{ w: number; h: number }>({ w: 600, h: 400 });
 
     useEffect(() => {
         const newW = window.innerWidth;
@@ -45,9 +41,8 @@ const Index = () => {
     }, []);
     return (
         <ThemeProvider>
+            <CSSReset />
             <ColorModeProvider>
-                <CSSReset />
-                {/* <LCIModal loading={loading} /> */}
                 <DarkMode>
                     <Grid templateColumns={frameTemplate(1, "vw")} templateRows={frameTemplate(1, "vh")} bg="black">
                         <Box
@@ -60,13 +55,7 @@ const Index = () => {
                             justifyContent="center"
                         >
                             <Box h="100%" display="flex" flexDirection="column" justifyContent="center">
-                                <Sketch
-                                    width={sketchSize.w}
-                                    height={sketchSize.h}
-                                    // onMounted={() => {
-                                    //     setLoading(false);
-                                    // }}
-                                />
+                                <Sketch width={sketchSize.w} height={sketchSize.h} />
                             </Box>
                         </Box>
                     </Grid>
@@ -84,13 +73,6 @@ const Index = () => {
                                     eventos de consumo en Cusco llevados a cabo en las redes sociales.
                                 </Text>
                             </DrawerBody>
-
-                            <DrawerFooter>
-                                {/* <Button variant="outline" mr={3} onClick={onClose}>
-                                Cancel
-                            </Button>
-                            <Button color="blue">Save</Button> */}
-                            </DrawerFooter>
                         </DrawerContent>
                     </Drawer>
                     <PseudoBox
