@@ -9,6 +9,7 @@ autopep8 = "*"
 [packages]
 matplotlib = "*"
 numpy = "*"
+pyarango = "*"
 
 [requires]
 python_version = "3.8"
