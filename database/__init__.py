@@ -1,1 +1,1 @@
-from .arango import load_arango
+from .loader import load_arango

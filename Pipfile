@@ -4,14 +4,16 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+autopep8 = "*"
 
 [packages]
 matplotlib = "*"
 numpy = "*"
 instaloader = "*"
-pyarango = "*"
 python-dotenv = "*"
 minio = "*"
+python-arango = "*"
+arango = "*"
 
 [requires]
 python_version = "3.8"

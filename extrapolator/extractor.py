@@ -1,8 +1,9 @@
+import os
+import time
 
 from dataclasses import asdict
-from pyArango.database import Database
+from arango.database import StandardDatabase
 from extrapolator.post import CleanPost
-import os
 from typing import Tuple
 from instaloader.instaloader import Instaloader, Post
 from datetime import datetime, timedelta
@@ -11,14 +12,13 @@ from minio.api import Minio
 from .relevance import relevance
 from instaloader import Hashtag
 from itertools import dropwhile, takewhile
-import time
 from threading import Thread
 from pathlib import Path
-from os import pardir, path
+from os import path
 from queue import Queue
 
 
-def extractor_loader(store: Minio, db: Database, query: str, delay_hours: int, period_seconds: int) -> Tuple[Thread, Queue]:
+def extractor_loader(store: Minio, db: StandardDatabase, query: str, delay_hours: int, period_seconds: int) -> Tuple[Thread, Queue]:
     loader = Instaloader()
     user, password = os.getenv("IG_USERNAME"), os.getenv("IG_PASSWORD")
 
@@ -41,7 +41,7 @@ def extractor_loader(store: Minio, db: Database, query: str, delay_hours: int, p
     return (t, q)
 
 
-def fetch_loop(store: Minio, db: Database, loader: Instaloader, query: str, delay_hours: int, period_seconds: int, q: Queue):
+def fetch_loop(store: Minio, db: StandardDatabase, loader: Instaloader, query: str, delay_hours: int, period_seconds: int, q: Queue):
     data_dir = os.getenv("DATA_DIR", "data/")
 
     while True:
@@ -59,7 +59,7 @@ def fetch_loop(store: Minio, db: Database, loader: Instaloader, query: str, dela
         time.sleep(period_seconds + int(random()*5))
 
 
-def process_post(loader: Instaloader, db: Database, post: Post, store: Minio, data_dir: str) -> CleanPost:
+def process_post(loader: Instaloader, db: StandardDatabase, post: Post, store: Minio, data_dir: str) -> CleanPost:
     likes = post.likes
     comments = post.comments
     date = post.date_local
@@ -101,20 +101,14 @@ def process_post(loader: Instaloader, db: Database, post: Post, store: Minio, da
 
     coll_name = "Posts"
 
-    posts = None
-    if coll_name not in db:
-        posts = db.createCollection(name=coll_name)
-    else:
-        posts = db[coll_name]
+    try:
+        db.create_collection(coll_name)
+    except:
+        print("error at execute create collection")
 
-    doc = posts.createDocument()
-    post_dict = asdict(p)
+    posts = db.collection(coll_name)
 
-    for k in post_dict.keys():
-        doc[k] = post_dict[k]
-
-    doc._key = p.id
-    doc.save()
+    posts.insert(asdict(p))
 
     if path.exists(filepath):
         os.remove(filepath)
