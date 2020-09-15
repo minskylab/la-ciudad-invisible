@@ -1,6 +1,4 @@
-node_modules/
-.next/
-.DS_Store
-proto
-dist
+.vscode
 .env
+.DS_Store
+arangodb.log
