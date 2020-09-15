@@ -13,7 +13,6 @@ instaloader = "*"
 python-dotenv = "*"
 minio = "*"
 python-arango = "*"
-arango = "*"
 
 [requires]
 python_version = "3.8"

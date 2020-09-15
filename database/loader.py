@@ -19,4 +19,5 @@ def load_arango() -> StandardDatabase:
         print("probably the database already exists")
 
     db = client.db(db_name, username=username, password=password)
+
     return db
