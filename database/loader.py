@@ -1,8 +1,8 @@
 import os
-from arango import ArangoClient, StandardDatabase
+from arango import ArangoClient
 
 
-def load_arango() -> StandardDatabase:
+def load_arango():
     endpoint = os.getenv("ARANGO_ENDPOINT", "http://127.0.0.1:8529")
     username = os.getenv("ARANGO_USERNAME", "root")
     password = os.getenv("ARANGO_PASSWORD", "")
