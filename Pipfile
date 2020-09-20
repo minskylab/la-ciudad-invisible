@@ -7,12 +7,15 @@ verify_ssl = true
 autopep8 = "*"
 
 [packages]
-matplotlib = "*"
 numpy = "*"
 instaloader = "*"
 python-dotenv = "*"
 minio = "*"
 python-arango = "*"
+peewee = "*"
+psycopg2 = "*"
+psycopg2-binary = "*"
+google-cloud-language = "*"
 
 [requires]
 python_version = "3.8"

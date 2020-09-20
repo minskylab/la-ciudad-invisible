@@ -1,0 +1,6 @@
+postgresqlUsername: postgres
+postgresqlPassword: laciudadinvisible
+
+persistence:
+  enabled: true
+  storageClass: nfs

@@ -8,7 +8,9 @@ class CleanPost:
     date: str
     hashtags: List[str]
     mentions: List[str]
-    imageURI: str
+    image_uri: str
     likes: int
     comments: int
     relevance: float
+    description: str
+    comments_content: List[str]
