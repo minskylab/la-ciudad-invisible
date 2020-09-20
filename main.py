@@ -8,8 +8,8 @@ store = load_s3()
 
 query = "cusco"
 
-delay_hours = 2
-period_seconds = 120
+delay_hours = 1
+period_seconds = 60
 
 t, queue = extractor_loader(store, db, query, delay_hours, period_seconds)
 
