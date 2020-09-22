@@ -65,17 +65,17 @@ def process_post(loader: Instaloader, post: Post, store: Minio, data_dir: str) -
 
     rel = relevance(likes, comments)
 
-    print(f"\n~~ [{_id}]: L: {likes}, C: {comments}, D: {date}, R: {rel}")
+    print(f"\n~ [{_id}]: L: {likes}, C: {comments}, D: {date}, R: {rel}")
 
     filepath = path.join(data_dir, post.shortcode)
 
     loader.download_pic(filepath, post.url, post.date)
+    print("")
 
     bucket = os.getenv("S3_BUCKET", "")
     endpoint = os.getenv("S3_ENDPOINT", "")
-    prefix = os.getenv("S3_DATA_DIR_NAME", "data")
+    folder_name = os.getenv("S3_DATA_DIR_NAME", "laciudadinvisible")
 
-    folder_name = "laciudadinvisible"
     destination = folder_name + "/" + post.shortcode + ".jpg"
 
     full_filepath = filepath + ".jpg"

@@ -19,6 +19,8 @@ class Post(BaseModel):
     likes = pw.IntegerField(default=0)
     relevance = pw.FloatField(default=0.0)
     sentiment = pw.FloatField(default=0.0)
+    comments_sentiment = pw.FloatField(default=0.0)
+    comments_count = pw.IntegerField(default=0)
 
 
 PostComments = Post.comments.get_through_model()

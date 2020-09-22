@@ -11,11 +11,13 @@ ENV PYTHONUNBUFFERED 1
 COPY ./requirements.txt /usr/src/app/requirements.txt
 
 RUN apk add --no-cache postgresql-libs
-RUN apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev
+RUN apk add --no-cache build-base gcc musl-dev postgresql-dev
+# --virtual .build-deps
 
+RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install -r requirements.txt --no-cache-dir
-RUN apk --purge del .build-deps
 
+# RUN apk --purge del .build-deps
 
 COPY . /usr/src/app/
 
