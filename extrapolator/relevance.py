@@ -1,5 +1,4 @@
 import numpy as np
-from matplotlib import pyplot as plt
 
 
 def relevance(likes: int, comments: int) -> float:
@@ -7,7 +6,7 @@ def relevance(likes: int, comments: int) -> float:
 
 
 def _consume(l: int, c: int) -> float:
-    l += 1 # not zero
+    l += 1  # not zero
     c += 1
     alphal = 0.32
     alphac = 0.18
