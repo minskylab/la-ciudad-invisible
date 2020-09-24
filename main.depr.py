@@ -2,7 +2,7 @@ from queue import Queue
 from threading import Thread
 from database import load_arango
 from storage import load_s3
-from extrapolator import extractor_loader
+from extrapolator import extractor
 
 
 def process(queue: Queue):
@@ -20,7 +20,7 @@ query = "cusco"
 delay_seconds = 60
 period_seconds = 60
 
-t, q = extractor_loader(store, db, query, delay_seconds, period_seconds)
+t, q = extractor(store, db, query, delay_seconds, period_seconds)
 t.start()
 
 p = Thread(target=process, args=(q,), daemon=True)

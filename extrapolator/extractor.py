@@ -16,7 +16,7 @@ from os import path
 from queue import Queue
 
 
-def extractor_loader(store: Minio, query: str, delay_seconds: int, period_seconds: int) -> Tuple[Thread, Queue]:
+def extractor(store: Minio, query: str, delay_seconds: int, period_seconds: int) -> Tuple[Thread, Queue]:
     loader = Instaloader()
     user, password = os.getenv("IG_USERNAME"), os.getenv("IG_PASSWORD")
 

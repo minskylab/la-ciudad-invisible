@@ -25,4 +25,7 @@ RUN python3 -m pip install -r requirements.txt --no-cache-dir
 
 COPY . /usr/src/app/
 
+ENV PROD=true
+ENV TZ="America/Lima"
+
 CMD ["python3", "/usr/src/app/main.py"]

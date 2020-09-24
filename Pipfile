@@ -16,6 +16,7 @@ peewee = "*"
 psycopg2 = "*"
 psycopg2-binary = "*"
 google-cloud-language = "*"
+helium = "*"
 
 [requires]
 python_version = "3.8"

@@ -1,2 +1,2 @@
-from .extractor import extractor_loader
+from .extractor import extractor
 from .post import CleanPost
