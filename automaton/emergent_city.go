@@ -61,8 +61,10 @@ func (ec *EmergentCity) insertationRoutine(index int, duration time.Duration) {
 	// time.Sleep(duration / 2)
 
 	// ec.city.categories[index].SetHighLifeMode(HighLife6)
+
 	// time.Sleep(duration / 2 / 4)
 	// ec.city.categories[index].SetHighLifeMode(HighLife7)
+
 	time.Sleep(duration / 2 / 4)
 	ec.city.categories[index].SetHighLifeMode(HighLife5)
 	time.Sleep(duration / 2 / 4)

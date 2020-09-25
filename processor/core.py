@@ -1,6 +1,7 @@
+from ferret.post import CleanPost
 from threading import Thread
 from typing import Tuple
-from extrapolator.post import CleanPost
+
 from database.postgres import Post, Comment
 from queue import Queue
 

@@ -80,12 +80,12 @@ def emitter_app(pq: Queue, delay_seconds: int) -> Tuple[Thread, Flask, SocketIO]
 
             tests = [test1, test2, test3, test4, test5, test6, test7, test8]
 
-            timer = random() * 150 + 30
+            timer = random() * 135 + 35
             t = choice(tests)
 
             Timer(timer, emit_new_post, args=(t,)).start()
 
-            time.sleep(timer)
+            time.sleep(20)
 
     def sub(pq: Queue, delay_seconds: int):
         while True:

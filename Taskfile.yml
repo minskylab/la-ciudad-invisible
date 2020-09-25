@@ -1,27 +1,28 @@
 version: "3"
 
 tasks:
-  build-automaton:
-    dir: automaton
-    cmds:
-      - GOOS=js GOARCH=wasm go build -o ../static/automaton.wasm .
+    build-automaton:
+        dir: automaton
+        cmds:
+            - GOOS=js GOARCH=wasm go build -o ../static/automaton.wasm .
 
-  start-docker:
-    cmds:
-      - docker build -t laciudad:dev .
-      - docker run --env-file=.env --net=host laciudad:dev
+    start-docker:
+        cmds:
+            - docker build -t laciudad:dev .
+              - docker run --env-file=.env --net=host laciudad:dev
 
-  publish-docker:
-    cmds:
-      - docker build -t minskylab/laciudadinvisible .
-      - docker push minskylab/laciudadinvisible
+    publish-docker:
+        cmds:
+            - task: build-automaton
+            - docker build -t minskylab/laciudadinvisible .
+            - docker push minskylab/laciudadinvisible
 
-  publish-helm:
-    cmds:
-      - task: publish-docker
-      - helm push laciudad/ minsky
+    publish-helm:
+        cmds:
+            - task: publish-docker
+            - helm push laciudad/ minsky
 
-  start:
-    cmds:
-      - task: build-automaton
-      - pipenv run python main.py
+    start:
+        cmds:
+            - task: build-automaton
+            - pipenv run python main.py
