@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math/rand"
 	"syscall/js"
 	"time"
@@ -21,13 +20,15 @@ func (ec *EmergentCity) insertNewEvent(this js.Value, inputs []js.Value) interfa
 		return nil
 	}
 
-	fmt.Println(inputs)
+	// fmt.Println(inputs)
 
 	image := inputs[0].String()
 	duration := inputs[1].String()
 	relevance := inputs[2].Float()
 
-	ec.InsertNewEvent(image, duration, float32(relevance))
+	// fmt.Println(image, duration, relevance)
+
+	go ec.InsertNewEvent(image, duration, float32(relevance))
 
 	return nil
 }
