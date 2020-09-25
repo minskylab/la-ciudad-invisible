@@ -4,8 +4,8 @@ from database.postgres.ents import Post
 from queue import Queue
 
 
-def emition(post: Post):
-    print(post)
+def emit(post: Post):
+    print(post.post_id, post.sentiment)
 
 
 def sub(pq: Queue, delay_seconds: int):
@@ -13,8 +13,8 @@ def sub(pq: Queue, delay_seconds: int):
         val: Post = pq.get()
         actual_date = val.date + timedelta(seconds=delay_seconds)
         dist = datetime.now() - actual_date
-        print(dist.seconds)
-        Timer(float(dist.seconds), emition, args=(val,))
+        time_to_launch = float(delay_seconds - dist.seconds)
+        Timer(time_to_launch, emit, args=(val,)).start()
 
 
 def emitter(pq: Queue, delay_seconds: int) -> Thread:

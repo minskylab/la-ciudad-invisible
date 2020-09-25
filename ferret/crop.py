@@ -1,6 +1,5 @@
 import smartcrop
 from PIL import Image
-import json
 
 sc = smartcrop.SmartCrop()
 
@@ -15,27 +14,28 @@ def crop_image(original_image: str) -> str:
 
     crop = res["top_crop"]
 
+    w = int(crop["width"])
+    h = int(crop["height"])
+
     x1 = int(crop["x"])
     y1 = int(crop["y"])
-    x2 = x1 + int(crop["width"]) if x1 + \
-        int(crop["width"]) < image.width else image.width
-    y2 = x1 + int(crop["height"]) if y1 + \
-        int(crop["height"]) < image.height else image.height
+
+    x2 = x1 + w if x1 + w < image.width else image.width
+    y2 = y1 + h if y1 + h < image.height else image.height
 
     area = (x1, y1, x2, y2)
 
     cropped_img = image.crop(area)
 
     parts = original_image.split("/")
-    print(parts)
 
     filename = parts[-1].split(".")
-    print(filename)
     filename = ".".join([filename[0] + "_cropped", ".".join(filename[1:])])
-    print(filename)
-    new_path = "/".join(parts[:-1].append(filename))
 
-    print(new_path)
+    final = parts[:-1]
+    final.append(filename)
+
+    new_path = "/".join(final)
 
     cropped_img.save(new_path)
 
