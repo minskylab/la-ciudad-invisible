@@ -18,6 +18,7 @@ psycopg2-binary = "*"
 google-cloud-language = "*"
 helium = "*"
 requests = "*"
+smartcrop = "*"
 
 [requires]
 python_version = "3.8"

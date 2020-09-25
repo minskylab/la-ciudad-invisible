@@ -1,3 +1,4 @@
+from ferret.crop import crop_image
 import os
 import re
 from .post import CleanPost
@@ -59,6 +60,9 @@ def fetch_loop(store: Minio, username: str, password: str, query: str, delay_sec
 
 
 def download_pic(filepath: str, image_url: str):
+    if image_url == "" or image_url == None:
+        return
+
     response = requests.get(image_url, stream=True)
     with open(filepath, 'wb+') as out_file:
         shutil.copyfileobj(response.raw, out_file)
@@ -87,9 +91,11 @@ def process_post(store: Minio, post: CleanPost, data_dir: str) -> CleanPost:
 
     download_pic(full_filepath, post.image_uri)
 
+    post_processed_img = crop_image(full_filepath)
+
     store.fput_object(bucket,
                       destination,
-                      full_filepath,
+                      post_processed_img,
                       content_type="image/jpg",
                       metadata={"x-amz-acl": "public-read"})
 
@@ -98,15 +104,15 @@ def process_post(store: Minio, post: CleanPost, data_dir: str) -> CleanPost:
     full_comments = post.comments_content
 
     p = CleanPost(
-        id=post.shortcode,
-        date=str(post.date_local),
+        id=post.id,
+        date=post.date,
         likes=post.likes,
         comments=post.comments,
-        hashtags=post.caption_hashtags,
-        mentions=post.caption_mentions,
+        hashtags=post.hashtags,
+        mentions=post.mentions,
         relevance=rel,
         image_uri=link,
-        description=post.caption,
+        description=post.description,
         comments_content=full_comments,
     )
 
@@ -154,6 +160,9 @@ def extract_posts(worker_endpoint: str, username: str, password: str, query: str
         items = post["raw_items"]
         date = post["date"]
         likes = post["likes"]
+
+        if img is None:  # no image, probably it's a video
+            continue
 
         d = datetime.strptime(date, '%Y-%m-%dT%H:%M:%S.%fZ')
         local_date = d-timedelta(hours=5)
