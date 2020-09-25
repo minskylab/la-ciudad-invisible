@@ -17,6 +17,7 @@ psycopg2 = "*"
 psycopg2-binary = "*"
 google-cloud-language = "*"
 helium = "*"
+requests = "*"
 
 [requires]
 python_version = "3.8"
