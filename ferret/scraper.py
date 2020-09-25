@@ -140,8 +140,9 @@ def extract_posts(worker_endpoint: str, username: str, password: str, query: str
     if len(data) < 2:  # error
         err = data["error"] if "error" in data else data
         print(err)
-        if "error" in data and retry < 3:
+        if "error" in data and retry < 5:
             print("scraping retrying")
+            time.sleep(int(random()*3))
             return extract_posts(worker_endpoint, username, password, query, retry + 1)
         print("scraping abort")
         return []

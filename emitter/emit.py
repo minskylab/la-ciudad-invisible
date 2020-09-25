@@ -10,7 +10,7 @@ from flask import copy_current_request_context, Flask, render_template
 def post_to_event(p: Post) -> dict:
     return {
         "id": p.post_id,
-        "date": p.date,
+        "date": str(p.date),
         "image": p.image_uri,
         "description": p.description,
         "sentiment": p.sentiment,
@@ -40,8 +40,14 @@ def emitter_app(pq: Queue, delay_seconds: int) -> Tuple[Thread, Flask, SocketIO]
         socketio.emit("new post", post)
 
     def sub(pq: Queue, delay_seconds: int):
-        test1 = {"id": "test1", "relevance": 0.34, "sentiment": 0.52}
-        test2 = {"id": "test2", "relevance": 0.34, "sentiment": 0.35}
+        img1 = "https://laciudadinvisible.sfo2.digitaloceanspaces.com/laciudadinvisible/CFkUltTMYRG.jpg"
+        img2 = "https://laciudadinvisible.sfo2.digitaloceanspaces.com/laciudadinvisible/CFkVHJ4AqC4.jpg"
+
+        test1 = {"id": "test1", "relevance": 0.34,
+                 "sentiment": 0.52, "image": img1}
+
+        test2 = {"id": "test2", "relevance": 0.34,
+                 "sentiment": 0.35, "image": img2}
 
         Timer(10, emit_new_post, args=(test1,)).start()
         Timer(20, emit_new_post, args=(test2,)).start()

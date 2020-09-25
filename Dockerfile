@@ -7,9 +7,6 @@ WORKDIR /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# install dependencies
-COPY ./requirements.txt /usr/src/app/requirements.txt
-
 RUN apk add --no-cache postgresql-libs
 RUN apk add --no-cache build-base gcc musl-dev postgresql-dev
 RUN apk add linux-headers
@@ -19,6 +16,10 @@ RUN apk add build-base python-dev py-pip jpeg-dev zlib-dev
 ENV LIBRARY_PATH=/lib:/usr/lib
 
 RUN python3 -m pip install --upgrade pip
+
+# install dependencies
+COPY ./requirements.txt /usr/src/app/requirements.txt
+
 RUN python3 -m pip install -r requirements.txt --no-cache-dir
 
 # RUN apk --purge del .build-deps

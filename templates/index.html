@@ -57,6 +57,16 @@
 
             socket.on("new post", function (data) {
                 console.log(data);
+                const imgURL = data.image;
+                const relevance = data.relevance;
+
+                const expositionTime = 10 * relevance;
+
+                console.log(expositionTime);
+
+                const duration = `${Math.floor(expositionTime)}s`;
+
+                insertNewEvent(imgURL, duration, relevance);
             });
         </script>
     </body>
