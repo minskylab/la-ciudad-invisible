@@ -26,7 +26,7 @@ const HighLife5 HighLife = 5
 // HighLife4 borns at 4
 const HighLife4 HighLife = 4
 
-// HighLife456 borns at 4
+// HighLife456 borns at 4, 5 and 6
 const HighLife456 HighLife = 1
 
 // GOL ...

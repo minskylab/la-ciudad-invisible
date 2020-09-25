@@ -35,7 +35,7 @@ func NewEmergentCity() *EmergentCity {
 // Run ...
 func (ec *EmergentCity) Run() {
 	ebiten.SetRunnableOnUnfocused(true)
-	ebiten.SetMaxTPS(20)
+	ebiten.SetMaxTPS(30)
 	ebiten.SetWindowSize(screenWidth, screenHeight)
 	ebiten.SetFullscreen(true)
 	ebiten.SetWindowTitle("Emergence Life")
