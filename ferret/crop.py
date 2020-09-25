@@ -1,5 +1,5 @@
-import smartcrop
 from PIL import Image
+import smartcrop
 
 sc = smartcrop.SmartCrop()
 

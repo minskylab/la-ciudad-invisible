@@ -1,7 +1,9 @@
+from flask_socketio import SocketIO
 from ferret.scraper import extractor
 from emitter.emit import emitter
 from processor.core import launch_capturer
 from storage import load_s3
+from app import app
 
 
 store = load_s3()
@@ -19,3 +21,6 @@ p.start()
 
 e = emitter(pq, delay_seconds)
 e.start()
+
+socketio = SocketIO(app)
+socketio.run(app)

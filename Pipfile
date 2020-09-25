@@ -19,6 +19,8 @@ google-cloud-language = "*"
 helium = "*"
 requests = "*"
 smartcrop = "*"
+flask-socketio = "*"
+flask = "*"
 
 [requires]
 python_version = "3.8"

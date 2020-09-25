@@ -93,8 +93,6 @@ def process_post(store: Minio, post: CleanPost, data_dir: str) -> CleanPost:
 
     post_processed_img = crop_image(full_filepath)
 
-    print(post_processed_img)
-
     store.fput_object(bucket,
                       destination,
                       post_processed_img,

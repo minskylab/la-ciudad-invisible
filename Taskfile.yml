@@ -1,9 +1,15 @@
 version: "3"
 
 tasks:
+  build-automaton:
+    dir: automaton
+    cmds:
+      - GOOS=js GOARCH=wasm go build -o ../static/automaton.wasm .
+
   start-docker:
-    - docker build -t laciudad:dev .
-    - docker run --env-file=.env --net=host laciudad:dev
+    cmds:
+      - docker build -t laciudad:dev .
+      - docker run --env-file=.env --net=host laciudad:dev
 
   publish-docker:
     cmds:
@@ -14,3 +20,8 @@ tasks:
     cmds:
       - task: publish-docker
       - helm push laciudad/ minsky
+
+  start:
+    cmds:
+      - task: build-automaton
+      - pipenv run python main.py
