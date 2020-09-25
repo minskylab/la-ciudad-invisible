@@ -79,6 +79,7 @@ func (ec *EmergentCity) insertEvent(i int, imageURL string, duration time.Durati
 	ec.mu.Lock()
 	ec.city.categories[i].SetImage(imageURL)
 	ec.city.categories[i].SetRelevance(relevance)
+
 	go ec.insertationRoutine(i, duration)
 	ec.mu.Unlock()
 }

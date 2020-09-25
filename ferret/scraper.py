@@ -52,8 +52,6 @@ def fetch_loop(store: Minio, username: str, password: str, query: str, delay_sec
         else:
             now = datetime.now()
 
-        print(f"now {now}")
-
         since = now - timedelta(seconds=delay_seconds+period_seconds)
         until = since + timedelta(seconds=period_seconds)
 

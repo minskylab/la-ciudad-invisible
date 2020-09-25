@@ -1,3 +1,4 @@
+import os
 import time
 from datetime import datetime, timedelta
 from threading import Thread, Timer
@@ -6,7 +7,7 @@ from database.postgres.ents import Post
 from queue import Queue
 from flask_socketio import SocketIO, emit
 from flask import copy_current_request_context, Flask, render_template
-from random import random
+from random import choice, random
 
 
 def post_to_event(p: Post) -> dict:
@@ -48,6 +49,9 @@ def emitter_app(pq: Queue, delay_seconds: int) -> Tuple[Thread, Flask, SocketIO]
         img3 = "/static/CFi5rIslLVU.jpg"
         img4 = "/static/CFi5v8-gh00.jpg"
         img5 = "/static/CFi6HdBnuEa.jpg"
+        img6 = "/static/CFi5wUZJIMa.jpg"
+        img7 = "/static/CFi6bObAd1k.jpg"
+        img8 = "/static/CFi-EXkAHbU.jpg"
 
         while True:
             test1 = {"id": "demo_01", "relevance": random(),
@@ -65,20 +69,35 @@ def emitter_app(pq: Queue, delay_seconds: int) -> Tuple[Thread, Flask, SocketIO]
             test5 = {"id": "demo_05", "relevance": random(),
                      "sentiment": 0.35, "image": img5}
 
-            Timer(30, emit_new_post, args=(test1,)).start()
-            Timer(70, emit_new_post, args=(test2,)).start()
-            Timer(100, emit_new_post, args=(test3,)).start()
-            Timer(140, emit_new_post, args=(test4,)).start()
-            Timer(200, emit_new_post, args=(test5,)).start()
+            test6 = {"id": "demo_06", "relevance": random(),
+                     "sentiment": 0.35, "image": img6}
 
-            time.sleep(200)
+            test7 = {"id": "demo_07", "relevance": random(),
+                     "sentiment": 0.35, "image": img7}
+
+            test8 = {"id": "demo_08", "relevance": random(),
+                     "sentiment": 0.35, "image": img8}
+
+            tests = [test1, test2, test3, test4, test5, test6, test7, test8]
+
+            timer = random() * 150 + 30
+            t = choice(tests)
+
+            Timer(timer, emit_new_post, args=(t,)).start()
+
+            time.sleep(timer)
 
     def sub(pq: Queue, delay_seconds: int):
         while True:
             val: Post = pq.get()
-
             actual_date = val.date + timedelta(seconds=delay_seconds)
-            dist = datetime.now() - actual_date
+
+            if os.getenv("PROD", False):
+                now = datetime.now() - timedelta(hours=5)
+            else:
+                now = datetime.now()
+
+            dist = now - actual_date
             time_to_launch = float(delay_seconds - dist.seconds)
 
             d_post = post_to_event(val)
