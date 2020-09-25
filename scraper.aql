@@ -13,7 +13,9 @@ WAIT(TO_INT(RAND(5000, 3000)))
 
 // INPUT(doc, 'input[placeholder="Search"]', "cusco")
 
-NAVIGATE(doc, "https://www.instagram.com/explore/tags/cusco", TO_INT(RAND(8000, 5000)))
+LET exploration_url = CONCAT("https://www.instagram.com/explore/tags/", @query)
+
+NAVIGATE(doc, exploration_url, TO_INT(RAND(8000, 5000)))
 
 // WAIT_NAVIGATION(doc, 4000)
 
@@ -52,14 +54,14 @@ FOR url in urls
 
     LET comments = (
         FOR c IN raw_items
-            RETURN TRIM(CONCAT_SEPARATOR(" ", REMOVE_NTH(SPLIT(c, " "), 0)))
+            RETURN TRIM(CONCAT_SEPARATOR("\n", REMOVE_NTH(SPLIT(c, "\n"), 0)))
     )
 
     LET description = FIRST(comments)
     LET responses = SHIFT(comments)
     
-    LET hashtags = REGEX_MATCH(description, "#\w+")
-    LET mentions = REGEX_MATCH(description, "@\w+")
+    // LET hashtags = REGEX_MATCH(description, "#\w+")
+    // LET mentions = REGEX_MATCH(description, "@\w+")
     
     // LET group = INNER_TEXT(dialog, 'div:nth-child(3)')    
     // LET likes_info = ELEMENTS(dialog, 'section')
@@ -80,11 +82,16 @@ FOR url in urls
     LET imgs_raw = (
         FOR i IN ELEMENTS(dialog, "img")
             FILTER IS_STRING(i.attributes.srcset)
-            RETURN i.attributes.srcset
+            RETURN FIRST(SPLIT(i.attributes.srcset, " "))
     )
+    
+    LET img = FIRST(imgs_raw)
+
     // LET img_link = img_raw.attributes.srcset
 
-    RETURN {id, user, date, description, responses, likes, comments, raw_items, hashtags, mentions, img: FIRST(imgs_raw)}
+
+    RETURN {id, user, date, description, responses, likes, comments, raw_items, img}
+    // hashtags, mentions
 
 
 //     // LET p = DOCUMENT(CONCAT('https://www.instagram.com', post.attributes.href), {driver: "cdp"})

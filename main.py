@@ -1,7 +1,8 @@
+from ferret.scraper import extractor
 from emitter.emit import emitter
 from processor.core import launch_capturer
 from storage import load_s3
-from extrapolator import extractor
+
 
 store = load_s3()
 

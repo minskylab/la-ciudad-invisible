@@ -8,3 +8,4 @@ session
 __pycache__
 docker-compose.yml
 laciudad-427d4e6920f2.json
+*.log
