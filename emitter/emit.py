@@ -40,8 +40,11 @@ def emitter_app(pq: Queue, delay_seconds: int) -> Tuple[Thread, Flask, SocketIO]
         socketio.emit("new post", post)
 
     def sub(pq: Queue, delay_seconds: int):
-        img1 = "https://laciudadinvisible.sfo2.digitaloceanspaces.com/laciudadinvisible/CFkUltTMYRG.jpg"
-        img2 = "https://laciudadinvisible.sfo2.digitaloceanspaces.com/laciudadinvisible/CFkVHJ4AqC4.jpg"
+        img1 = "/static/CFi7iK7l4EX.jpg"
+        img2 = "/static/CFi5prRJrIB.jpg"
+        img3 = "/static/CFi5rIslLVU.jpg"
+        img4 = "/static/CFi5v8-gh00.jpg"
+        img5 = "/static/CFi6HdBnuEa.jpg"
 
         test1 = {"id": "test1", "relevance": 0.34,
                  "sentiment": 0.52, "image": img1}
@@ -49,8 +52,20 @@ def emitter_app(pq: Queue, delay_seconds: int) -> Tuple[Thread, Flask, SocketIO]
         test2 = {"id": "test2", "relevance": 0.34,
                  "sentiment": 0.35, "image": img2}
 
-        Timer(10, emit_new_post, args=(test1,)).start()
-        Timer(20, emit_new_post, args=(test2,)).start()
+        test3 = {"id": "test3", "relevance": 0.50,
+                 "sentiment": 0.35, "image": img3}
+
+        test4 = {"id": "test4", "relevance": 0.50,
+                 "sentiment": 0.35, "image": img4}
+
+        test5 = {"id": "test4", "relevance": 0.50,
+                 "sentiment": 0.35, "image": img5}
+
+        Timer(30, emit_new_post, args=(test1,)).start()
+        Timer(70, emit_new_post, args=(test2,)).start()
+        Timer(100, emit_new_post, args=(test3,)).start()
+        Timer(140, emit_new_post, args=(test4,)).start()
+        Timer(200, emit_new_post, args=(test5,)).start()
 
         while True:
             val: Post = pq.get()

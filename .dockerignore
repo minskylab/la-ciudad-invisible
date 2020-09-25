@@ -6,3 +6,4 @@ arangodb.log
 data/
 session
 
+docker-compose.yml

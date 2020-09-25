@@ -20,4 +20,4 @@ p.start()
 e, app, socketio = emitter_app(pq, delay_seconds)
 e.start()
 
-socketio.run(app)
+socketio.run(app, host="0.0.0.0")
