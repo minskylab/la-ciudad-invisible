@@ -85,7 +85,7 @@ def emitter_app(pq: Queue, delay_seconds: int) -> Tuple[Thread, Flask, SocketIO]
 
             Timer(timer, emit_new_post, args=(t,)).start()
 
-            time.sleep(20)
+            time.sleep(30)
 
     def sub(pq: Queue, delay_seconds: int):
         while True:
@@ -107,7 +107,7 @@ def emitter_app(pq: Queue, delay_seconds: int) -> Tuple[Thread, Flask, SocketIO]
     def emitter(pq: Queue, delay_seconds: int) -> Thread:
         return Thread(target=sub, args=(pq, delay_seconds), daemon=True)
 
-    # demo activated
-    Thread(target=demo_mode, daemon=True).start()
+    # demo deactivated
+    # Thread(target=demo_mode, daemon=True).start()
 
     return emitter(pq, delay_seconds), app, socketio
