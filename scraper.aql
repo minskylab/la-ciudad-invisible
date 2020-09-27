@@ -9,13 +9,13 @@ INPUT(doc, 'input[name="password"]', @password)
 
 CLICK(doc, 'button[type="submit"]')
 
-WAIT(TO_INT(RAND(5000, 3000)))
+WAIT(TO_INT(RAND(10000, 4000)))
 
 // INPUT(doc, 'input[placeholder="Search"]', "cusco")
 
 LET exploration_url = CONCAT("https://www.instagram.com/explore/tags/", @query)
 
-NAVIGATE(doc, exploration_url, TO_INT(RAND(8000, 5000)))
+NAVIGATE(doc, exploration_url, TO_INT(RAND(12000, 6000)))
 
 // WAIT_NAVIGATION(doc, 4000)
 
@@ -41,8 +41,8 @@ LET urls = (
 )
 
 FOR url in urls
-    NAVIGATE(doc, url, TO_INT(RAND(8000, 5000)))
-    WAIT(TO_INT(RAND(500, 200)))
+    NAVIGATE(doc, url, TO_INT(RAND(12000, 8000)))
+    WAIT(TO_INT(RAND(600, 300)))
 
     LET t = ELEMENT(doc, 'time')
     LET dialog = ELEMENT(doc, 'article[role="presentation"]')
@@ -52,13 +52,13 @@ FOR url in urls
 
     LET raw_items = INNER_TEXT_ALL(dialog, 'li[role="menuitem"]')
 
-    LET comments = (
-        FOR c IN raw_items
-            RETURN TRIM(CONCAT_SEPARATOR("\n", REMOVE_NTH(SPLIT(c, "\n"), 0)))
-    )
+    // LET comments = (
+    //     FOR c IN raw_items
+    //         RETURN TRIM(CONCAT_SEPARATOR("\n", REMOVE_NTH(SPLIT(c, "\n"), 0)))
+    // )
 
-    LET description = FIRST(comments)
-    LET responses = SHIFT(comments)
+    // LET description = FIRST(comments)
+    // LET responses = SHIFT(comments)
     
     // LET hashtags = REGEX_MATCH(description, "#\w+")
     // LET mentions = REGEX_MATCH(description, "@\w+")
@@ -68,6 +68,7 @@ FOR url in urls
     // LET likes = INNER_TEXT(NTH(likes_info, 1), 'div')
 
     LET meta = INNER_TEXT_ALL(dialog, 'section')
+
     LET raw_likes = (
         FOR m IN meta
             FILTER REGEX_TEST(m, "[0-9]+")
@@ -75,7 +76,7 @@ FOR url in urls
     )
     
     LET likes = TO_INT(TRIM(FIRST(FLATTEN(raw_likes))))
-    LET user = TRIM(FIRST(SPLIT(info, "•")))
+    // LET user = TRIM(FIRST(SPLIT(info, "•")))
     LET id = TRIM(SUBSTITUTE(url, "https://www.instagram.com/p/", ""), "/\n\r\t") 
 
 
@@ -90,7 +91,7 @@ FOR url in urls
     // LET img_link = img_raw.attributes.srcset
 
 
-    RETURN {id, user, date, description, responses, likes, comments, raw_items, img}
+    RETURN {id, date, likes, raw_items, img}
     // hashtags, mentions
 
 

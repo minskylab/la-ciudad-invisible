@@ -1,4 +1,4 @@
-from ferret.crop import crop_image
+from cropper import crop_image
 import os
 import re
 from .post import CleanPost
