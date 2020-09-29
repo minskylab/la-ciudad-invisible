@@ -1,8 +1,7 @@
-LET doc = DOCUMENT("https://www.instagram.com", {
-    driver: "cdp",
-    userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.87 Safari/537.36"
+LET doc = DOCUMENT('https://www.instagram.com', {
+    driver: 'cdp',
+    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.87 Safari/537.36'
 })
-
 
 INPUT(doc, 'input[name="username"]', @username)
 INPUT(doc, 'input[name="password"]', @password)
@@ -11,28 +10,17 @@ CLICK(doc, 'button[type="submit"]')
 
 WAIT(TO_INT(RAND(10000, 4000)))
 
-// INPUT(doc, 'input[placeholder="Search"]', "cusco")
-
-LET exploration_url = CONCAT("https://www.instagram.com/explore/tags/", @query)
+LET exploration_url = CONCAT('https://www.instagram.com/explore/tags/', @query)
 
 NAVIGATE(doc, exploration_url, TO_INT(RAND(12000, 6000)))
 
-// WAIT_NAVIGATION(doc, 4000)
-
 SCROLL(doc, 0, 6000)
 
-// LET article = ELEMENT(doc, "article")
-// LET recents = ELEMENT(doc, 'a')
+PRINT(doc)
 
+
+//////////// The error is here ////////////
 LET recents = ELEMENTS(doc, 'div[style^="flex-direction: column; padding-bottom:"]')
-
-// LET post = FIRST(ELEMENTS(LAST(recents), 'a'))
-// LET sel = CONCAT('a[href="', post.attributes.href, '"]')
-
-// CLICK(doc, sel)
-
-// RETURN SCREENSHOT(doc)
-
 
 LET urls = (
     FOR post IN ELEMENTS(LAST(recents), 'a')
@@ -42,6 +30,7 @@ LET urls = (
 
 FOR url in urls
     NAVIGATE(doc, url, TO_INT(RAND(12000, 8000)))
+
     WAIT(TO_INT(RAND(600, 300)))
 
     LET t = ELEMENT(doc, 'time')
@@ -51,69 +40,24 @@ FOR url in urls
     LET info = INNER_TEXT(dialog, 'header')
 
     LET raw_items = INNER_TEXT_ALL(dialog, 'li[role="menuitem"]')
-
-    // LET comments = (
-    //     FOR c IN raw_items
-    //         RETURN TRIM(CONCAT_SEPARATOR("\n", REMOVE_NTH(SPLIT(c, "\n"), 0)))
-    // )
-
-    // LET description = FIRST(comments)
-    // LET responses = SHIFT(comments)
-    
-    // LET hashtags = REGEX_MATCH(description, "#\w+")
-    // LET mentions = REGEX_MATCH(description, "@\w+")
-    
-    // LET group = INNER_TEXT(dialog, 'div:nth-child(3)')    
-    // LET likes_info = ELEMENTS(dialog, 'section')
-    // LET likes = INNER_TEXT(NTH(likes_info, 1), 'div')
-
     LET meta = INNER_TEXT_ALL(dialog, 'section')
 
     LET raw_likes = (
         FOR m IN meta
-            FILTER REGEX_TEST(m, "[0-9]+")
-            RETURN REGEX_MATCH(m, "[0-9]+")
+            FILTER REGEX_TEST(m, '[0-9]+')
+            RETURN REGEX_MATCH(m, '[0-9]+')
     )
     
     LET likes = TO_INT(TRIM(FIRST(FLATTEN(raw_likes))))
-    // LET user = TRIM(FIRST(SPLIT(info, "•")))
-    LET id = TRIM(SUBSTITUTE(url, "https://www.instagram.com/p/", ""), "/\n\r\t") 
-
-
+    
+    LET id = TRIM(SUBSTITUTE(url, 'https://www.instagram.com/p/', ''), '/\n\r\t') 
+    
     LET imgs_raw = (
-        FOR i IN ELEMENTS(dialog, "img")
+        FOR i IN ELEMENTS(dialog, 'img')
             FILTER IS_STRING(i.attributes.srcset)
             RETURN FIRST(SPLIT(i.attributes.srcset, " "))
     )
     
     LET img = FIRST(imgs_raw)
 
-    // LET img_link = img_raw.attributes.srcset
-
-
     RETURN {id, date, likes, raw_items, img}
-    // hashtags, mentions
-
-
-//     // LET p = DOCUMENT(CONCAT('https://www.instagram.com', post.attributes.href), {driver: "cdp"})
-//     LET sel = CONCAT('a[href="', post.attributes.href, '"]')
-//     PRINT(sel)
-//     CLICK(doc, sel)
-//     WAIT(300)
-//     // LET span = ELEMENT(doc, 'li[role="menuitem"] > span')
-//     RETURN INNER_TEXT(doc, 'time')
-    
-
-
-// FOR link IN ELEMENTS(doc, 'a[href^="/p/"]')
-//     // CLICK(doc, CONCAT('a[href="', link.attributes.href, '"]'))
-//     // WAIT(1500)
-//     // // LET image = ELEMENT(link, "img")
-//     // LET t = INNER_TEXT(doc, 'time')
-//     // CLICK_ALL(doc, 'button[type="button"]')
-//     // WAIT(300)
-
-//     NAVIGATE(doc, CONCAT('https://www.instagram.com', link.attributes.href))
-//     WAIT(1000)
-//     LET t = ELEMENT(doc, "time")
-//     RETURN t
