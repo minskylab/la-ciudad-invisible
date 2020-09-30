@@ -1,17 +1,20 @@
-LET exploration_url = 'https://www.instagram.com/explore/tags/' + @query
+
+LET exploration_url = 'https://www.instagram.com/accounts/login/?next=/explore/tags/' + @query
+// LET exploration_url = 'https://www.instagram.com/explore/tags/' + @query
 
 LET doc = DOCUMENT(exploration_url, {
     driver: 'cdp',
     userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.87 Safari/537.36'
 })
 
-// INPUT(doc, 'input[name="username"]', @username)
-// INPUT(doc, 'input[name="password"]', @password)
+INPUT(doc, 'input[name="username"]', @username)
+INPUT(doc, 'input[name="password"]', @password)
 
-// CLICK(doc, 'button[type="submit"]')
+CLICK(doc, 'button[type="submit"]')
 
-WAIT(TO_INT(RAND(8000, 3000)))
+WAIT(TO_INT(RAND(16000, 6000)))
 
+PRINT(doc)
 
 // NAVIGATE(doc, exploration_url, TO_INT(RAND(12000, 6000)))
 
