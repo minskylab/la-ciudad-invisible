@@ -1,0 +1,3 @@
+--sessionfile=instaloader.sessionfile 
+--fast-update
+--comments
