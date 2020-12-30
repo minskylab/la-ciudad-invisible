@@ -1,3 +1,4 @@
+from cropper.crop import crop_image
 import os
 import time
 
@@ -71,6 +72,8 @@ def process_post(loader: Instaloader, post: Post, store: Minio, data_dir: str) -
 
     loader.download_pic(filepath, post.url, post.date)
     print("")
+
+    post_processed_img = crop_image(full_filepath)
 
     bucket = os.getenv("S3_BUCKET", "")
     endpoint = os.getenv("S3_ENDPOINT", "")
